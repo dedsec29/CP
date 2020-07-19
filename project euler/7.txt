@@ -1,0 +1,26 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int d=1;
+    int k=0;
+        int st=3;        //checking only odd numbers, 2 is already counted
+        while (d<10001) { //because end me d ho jata hai 10001
+            bool r=true;
+            for (int i=2;i<st;i++) {
+                if (st%i==0) {
+                    r=false; break;
+                }
+            }
+            if (r) {
+                    d++;
+                    k=st;
+                }
+            st=st+2;
+        }
+        cout<<k;
+    return 0;
+}
+

@@ -1,0 +1,14 @@
+int x=4000000;
+int i=0;
+int s=0;
+int a,b,c;
+a=0;b=1;c=1;
+while (x>c) {
+    a=b;
+    b=c;
+    c=a+b;
+    if (c%2==0) {
+        s=s+c;
+    }
+}
+System.out.print(s);

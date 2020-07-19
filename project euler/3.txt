@@ -1,0 +1,84 @@
+I FUCKING DID IT!
+
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int largestpf(int q) {
+    int br=0;
+  for (int i=1; i<=q; i++) {
+    if ((q%i)==0) {
+        bool r=true;
+        for (int j=2; j<i; j++) {
+            if ((i%j)==0) {
+                r=false;
+                break;
+            }
+        }
+     if (r) {
+                if (i>=br)
+                    br=i;
+            }
+    }
+  }
+  return br;
+}
+
+int main()
+{
+    cout << "Enter number: ";
+    long long x;
+    cin >> x;
+int r=1;
+long long b;
+long long ceilofcheck=0;
+long double sqrtofx= sqrt(x);
+long long ceilofx= (long long) ceil(sqrtofx);
+while (r!=0) {
+    b=ceilofx*ceilofx-x;
+    long double check=sqrt(b);
+    ceilofcheck= (long long) ceil(check);
+    if ((ceilofcheck*ceilofcheck)==b) {
+        r=0;
+    }
+    ceilofx++;
+}
+ceilofx--;
+int difference=ceilofx-ceilofcheck;
+int sum=ceilofx+ceilofcheck;
+
+    int p1=largestpf(difference);
+    int p2=largestpf(sum);
+    if (p1>p2)
+        cout << "Largest prime factor is " << p1 <<endl;
+    else
+        cout << "Largest prime factor is " << p2 <<endl;
+
+    return 0;
+}
+
+
+Much better way: 
+
+  import java.util.ArrayList;
+
+  long x=600851475143L;
+  int i=2;
+  ArrayList list = new ArrayList();
+  while (x!=1) {
+      if (x%i==0) {
+          x=x/i;  //dividing by factor to get bigger factor now reduced chunk
+          list.add(i);
+      }
+      i++;
+  }
+  int l=list.size();
+  int d=0;
+  for (int j=0;j<l;j++) {
+      int n=(int) list.get(j);
+      if (n>=d) {
+          d=n;
+      }
+  }
+System.out.print(d);
