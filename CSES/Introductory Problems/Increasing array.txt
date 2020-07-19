@@ -1,0 +1,19 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    ll n; cin>>n;
+    ll ans=0;
+    ll prev; cin>>prev;
+    for (int i=1;i<n;i++) {
+        ll r; cin>>r;
+        if (r<prev) 
+            ans+=prev-r;
+        else prev=r;
+    }
+    cout<<ans;
+    return 0;
+}

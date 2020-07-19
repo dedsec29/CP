@@ -1,0 +1,23 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define m 1000000007
+using namespace std;
+
+ll poww(ll A,ll N) {
+    ll temp;
+    if (N==0)
+        return 1;
+    temp=poww(A,N/2);
+    if (N%2==0)
+        return ((temp%m)*(temp%m))%m;
+    else
+        return ((A%m)*(((temp%m)*(temp%m))%m))%m;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    ll n; cin>>n;
+    cout<<poww(2,n);
+    return 0;
+}

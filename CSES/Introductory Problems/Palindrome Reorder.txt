@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    string s; cin>>s;
+    unordered_map<char,int> mp;
+    for (auto c:s) mp[c]++;
+    int f1=0,of; bool imp=false; char o=s[0];
+    for (auto x:mp) {
+        if (x.second&1) {
+            if (f1==0) f1++, o=x.first,of=x.second;
+            else {imp=true; break;}
+        }
+    }
+    if (s.size()%2==0) {
+        if (f1!=0) cout<<"NO SOLUTION\n";
+        else {
+            string k="";
+            for (auto x:mp) {
+                for (int i=1;i<=x.second/2;i++) k+=x.first;
+            }
+            cout<<k;
+            reverse(k.begin(),k.end());
+            cout<<k;
+        }
+    }
+    else {
+        if (imp) cout<<"NO SOLUTION\n";
+        else {
+            mp.erase(o);
+            string k="";
+            for (auto x:mp) {
+                for (int i=1;i<=x.second/2;i++) k+=x.first;
+            }
+            cout<<k;
+            for (int i=1;i<=of;i++) cout<<o;
+            reverse(k.begin(),k.end());
+            cout<<k;
+        }
+    }
+    return 0;
+}

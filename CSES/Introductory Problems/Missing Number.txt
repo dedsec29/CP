@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+long computeXOR(const int n) {
+    switch(n & 3) {// n % 4  
+        case 0: return n;     // if n is multiple of 4 
+        case 1: return 1;     // If n % 4 gives remainder 1   
+        case 2: return n + 1; // If n % 4 gives remainder 2     
+        case 3: return 0;     // If n % 4 gives remainder 3   
+    } 
+} 
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n; cin>>n;
+    ll x=computeXOR(n);
+    for (int i=1;i<n;i++) {
+        int r; cin>>r;
+        x^=r;
+    }
+    cout<<x;
+    return 0;
+}
