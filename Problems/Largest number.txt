@@ -1,0 +1,29 @@
+ int l;
+  cout << "How many numbers you want to compare among? " ;
+  cin >> l;
+  int d=1;
+  int values[l];
+  int u;
+  for (int i=0;i<l;i++) {
+    cout << "Entry " << d << ": ";
+    cin >> u;
+    values[i]=u;
+    d++;
+  }
+  int s=0;
+  int br=values[0];
+  for (int j=0; j<l;j++) {
+    for (int k=0; k<l; k++) {
+        if (values[j];<=values[k]) {
+           s=values[k];
+        }
+        else {
+            s=values[j];;
+        }
+        if (s>=br) {
+            br=s;
+        }
+    }
+  }
+  cout << ""<< br;
+  return 0;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  

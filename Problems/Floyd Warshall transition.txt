@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+bool A[27][27];
+
+void clear() {
+    for (int i=1;i<=26;i++) {
+        for (int j=1;j<=26;j++)
+            if (i==j)
+                A[i][j]=true;
+            else
+                A[i][j]=false;
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int p; cin>>p;
+    while (p--) {
+        clear();
+       string s,t; cin>>s>>t;
+       if (s.size()!=t.size()) {
+           cout<<"NO\n";
+           continue;
+       }
+       int M; cin>>M;
+        while (M--) {
+           string x; cin>>x;
+           int u=x[0]-'a'+1;
+           int v=x[3]-'a'+1;
+           A[u][v]=true;
+        }
+        for (int k=1;k<=26;k++) {
+            for (int i=1;i<=26;i++) {
+                for (int j=1;j<=26;j++)
+                    A[i][j]= A[i][j] | (A[i][k] && A[k][j]);
+           }
+        }
+        bool imp=false;
+        for (int i=0;i<s.size();i++) {
+            if (s[i]==t[i])
+                continue;
+            if (!A[s[i]-'a'+1][t[i]-'a'+1]) {
+                imp=true;
+                break;
+            }
+        }
+        if (imp) cout<<"NO\n";
+        else cout<<"YES\n";
+    }
+    return 0;
+}

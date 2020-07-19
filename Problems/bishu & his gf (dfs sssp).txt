@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> J[1001];
+bool vis[1001];
+bool girl[1001];
+int dist[1001];
+
+void dfs(int v, int d) {
+    vis[v]=true;
+    dist[v]=dist[d]+d;
+    for (auto i:J[v]) {
+        if (vis[i]==false)
+            dfs(i,d+1);
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int N; cin>>N;
+    for (int in=1;in<=N-1;in++) {
+        int u,v; cin>>u>>v;
+        J[u].push_back(v);
+        J[v].push_back(u);
+    }
+    int Q; cin>>Q;
+    while (Q--) {
+        int x; cin>>x;
+        girl[x]=true;
+    }
+    dfs(1,0);
+    int ans=10002;
+    int girlID=0;
+    for (int i=1;i<=N;i++) {
+        if (girl[i]==true && ans>dist[i]) {
+            ans=dist[i];
+            girlID=i;
+        }
+    }
+    cout<<girlID<<"\n";
+    return 0;
+}

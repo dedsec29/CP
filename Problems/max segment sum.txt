@@ -1,0 +1,87 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct data {
+    long sum,prefix,suffix,ans;
+};
+
+int const size=1e5;
+int n,m;
+long a[size];
+data t[4*size];
+
+data combine(data l, data r) {
+    data res;
+    res.sum=l.sum+r.sum;
+    res.prefix=max(l.prefix,l.sum+r.prefix);
+    res.suffix=max(r.suffix,r.sum+l.suffix);
+    res.ans=max(l.suffix+r.prefix,max(l.ans,r.ans));
+    return res;
+}
+
+data make_data(long x) {
+    data leaf;
+    leaf.sum=leaf.prefix=leaf.suffix=leaf.ans=x;
+    return leaf;
+}
+
+void build(int v,int tl,int tr) {
+    if (tl==tr) {
+        long aa=a[tl];
+        t[v]=make_data(aa);
+    }
+    else {
+        int tm=(tl+tr)/2;
+        build(2*v,tl,tm);
+        build(2*v+1,tm+1,tr);
+        t[v]=combine(t[2*v],t[2*v+1]);
+    }
+}
+
+void update(int v,int tl,int tr,int pos,long new_val) {
+    if (tl==tr)
+        t[v]=make_data(new_val);
+    else {
+        int tm=(tl+tr)/2;
+        if (pos<=tm)
+            update(2*v,tl,tm,pos,new_val);
+        else
+            update(2*v+1,tm+1,tr,pos,new_val);
+        t[v]=combine(t[2*v],t[2*v+1]);
+    }
+}
+
+data qry(int v,int tl,int tr,int l,int r) {
+    if (l>r)
+        return make_data(0);
+    if (l==tl && r==tr)
+        return t[v];
+    else {
+        int tm=(tl+tr)/2;
+        return combine(qry(2*v,tl,tm,l,min(r,tm)),qry(2*v+1,tm+1,tr,max(l,tm+1),r));
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t; cin>>t;
+    while (t--) {
+        int n,q; cin>>n>>q;
+        for (int in=0;in<n;in++) cin>>a[in];
+        build(1,0,n-1);
+        char c;
+        while (q--) {
+            cin>>c;
+            if (c=='Q') {
+                int x,y; cin>>x>>y;
+                cout<<qry(1,0,n-1,x-1,y-1).ans<<"\n";
+            }
+            else {
+                int x,v; cin>>x>>v;
+                update(1,0,n-1,x-1,v);
+            }
+        }
+    }
+    return 0;
+}

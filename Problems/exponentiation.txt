@@ -1,0 +1,20 @@
+#include <bits/stdc++.h>
+
+long poww(int x, int n) {
+    long temp;
+    if (n==0)
+        return 1;
+    temp=poww(x,n/2);
+    if (n%2==0)
+        return temp*temp;
+    else
+        return x*temp*temp;
+}
+
+using namespace std;
+
+int main() {
+    int x,n; cin>>x>>n;
+    cout<<poww(x,n)<<endl;
+    return 0;
+}

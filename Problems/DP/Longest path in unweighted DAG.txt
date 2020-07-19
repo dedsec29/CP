@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+//if we check path having min in degree first, visiting would be proper.
+//if we dont, we might never visiting that path providing the answer
+//if we visit only when indegree zero, we're ensuring to take longer path as baaki time
+//+1 update hoga for others but when zero longer path so zyada bharega dp table
+
+int const siz=1e5+1;
+vector<int> adj[siz];
+int depth[siz],N,M,indegree[siz];
+bool vis[siz];
+
+void dfs(int v) {
+    vis[v]=true;
+    for (int i:adj[v]) {
+        depth[i]=max(depth[i],depth[v]+1);
+        --indegree[i];
+        if (indegree[i]==0)
+            dfs(i);
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cin>>N>>M;
+    while (M--) {
+        int u,v; cin>>u>>v;
+        adj[u].push_back(v);
+        indegree[v]++;
+    }
+    for (int i=1;i<=N;i++) {
+        if (!vis[i] && indegree[i]==0)
+            dfs(i);
+    }
+    int lp=0;
+    for (int i=1;i<=N;i++)
+        lp=max(lp,depth[i]);
+    cout<<lp<<"\n";
+    return 0;
+}

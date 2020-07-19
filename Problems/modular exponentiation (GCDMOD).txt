@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define mod 1000000007
+using namespace std;
+
+ll poww(ll A,ll N,ll m) {
+    ll temp;
+    if (N==0)
+        return 1;
+    temp=poww(A,N/2,m);
+    if (N%2==0)
+        return ((temp%m)*(temp%m))%m;
+    else
+        return ((A%m)*(((temp%m)*(temp%m))%m))%m;
+}
+
+ll gcd(ll A,ll B,ll N) {
+    if (A==B)
+        return 2*poww(A,N,mod);
+    ll ye=A-B;
+    ll d=floor(sqrt(ye));
+    ll ans=0;
+    for (ll i=1;i<=d;i++) {
+        if (ye%i==0) {
+            ll sm=(poww(A,N,i)+poww(B,N,i))%i;
+            if (sm==0)
+                ans=max(ans,i);
+            if (i!=ye/i) {
+                sm=(poww(A,N,ye/i)+poww(B,N,ye/i))%(ye/i);
+                if (sm==0)
+                    ans=max(ans,ye/i);
+            }
+        }
+    }
+    return ans;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t; cin>>t;
+    while (t--) {
+        long long A,B,N; cin>>A>>B>>N;
+        cout<<gcd(A,B,N)%mod<<"\n";
+    }
+    return 0;
+}

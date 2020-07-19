@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int const siz=1e5;
+vector<int> adj[siz+1];
+bool vis[siz+1];
+vector<pair<int,int>> ans;
+//if bridges exist, not possible to keep only one directional
+int n,m,timer, tin[siz+1],low[siz+1];
+unordered_set<int> cant[siz+1];
+
+void dfs(int v,int parent) {
+    vis[v]=true;
+    tin[v]=low[v]=timer++;
+    for (int child: adj[v]) {
+        if (child==parent)
+            continue;
+        if (vis[child]) { //found backEdge
+            low[v]=min(low[v],tin[child]);
+            if (cant[v].find(child)==cant[v].end()) {
+                cant[child].insert(v);
+                ans.push_back({v,child});
+            }
+        }
+        else {
+            dfs(child,v);
+            low[v]=min(low[child],low[v]);
+            if (low[child]>tin[v]) {//found Bridge
+                cout<<"0\n";
+                exit(0);
+            }
+            ans.push_back({v,child});
+            cant[child].insert(v);
+        }
+        
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cin>>n>>m;
+    while (m--) {
+        int u,v; cin>>u>>v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    dfs(1,-1);
+    for (auto x:ans) cout<<x.first<<" "<<x.second<<"\n";
+    return 0;
+}

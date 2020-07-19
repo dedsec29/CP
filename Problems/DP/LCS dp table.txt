@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    string s,t; cin>>s>>t;
+    int dp[s.size()+1][t.size()+1];
+    dp[0][0]=1;
+    for (int i1=1;i1<=t.size();i1++)
+        dp[0][i1]=0;
+    for (int i2=1;i2<=s.size();i2++)
+        dp[i2][0]=0;
+    for (int i=1;i<=s.size();i++) {
+        for (int j=1;j<=t.size();j++) {
+            if (s[i -1]==t[j -1])
+                dp[i][j]=1+dp[i-1][j-1]; //popoff from both
+            else
+                dp[i][j]=max(dp[i-1][j],dp[i][j-1]); //try both, choose max
+        }
+    }
+    stack<char> lcs;
+    int i,j; i=s.size(); j=t.size();
+    while (i!=0 && j!=0) {
+        if (dp[i][j]>max(dp[i-1][j],dp[i][j-1])) {
+            lcs.push(s[i -1]);
+            i--;j--;
+        }
+        else {
+            if (dp[i][j-1]<=dp[i-1][j])
+                i--; //dont push, just reach there and in next iteration it will be pushed
+            else
+                j--;
+        }
+    }
+    while (!lcs.empty())
+        cout<<lcs.top(), lcs.pop();
+    return 0;
+}

@@ -1,0 +1,47 @@
+    #include <bits/stdc++.h>
+    using namespace std;
+     
+    int parent[100001];
+     
+    int find(int a) {
+        if (parent[a]<0)
+            return a;
+        parent[a]=find(parent[a]);
+        return parent[a];
+    }
+     
+    void Union(int a, int b) {
+        if (parent[a]<=parent[b]) {
+            parent[a]+=parent[b];
+            parent[b]=a;
+        }
+        else {
+            parent[b]+=parent[a];
+            parent[a]=b;
+        }
+    }
+     
+    int main() {
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL);
+        multimap<int, pair<int,int>> edges;
+        int N,M; cin>>N>>M;
+        for (int j=1;j<=N;j++) parent[j]=-1;
+        for (int i=1;i<=M;i++) {
+            int a,b,w; cin>>a>>b>>w;
+            edges.insert({w, make_pair(a,b)});
+        }
+        long long sum=0;
+        for (x: edges) {
+            int s=x.first;
+            int a=x.second.first;
+            int b=x.second.second;
+            int u=find(a); int v=find(b);
+            if (u!=v) {
+                sum+=s;
+                Union(u,v);
+            } 
+        }
+        cout<<sum<<"\n";
+        return 0;
+    }

@@ -1,0 +1,30 @@
+#include <iostream>
+
+using namespace std;
+
+long gcd(long long x, long long y) {
+   if (x>y) {
+    long long z=x;
+    x=y;
+    y=z;
+   }
+   long long r=x%y;
+   while (r!=0) {
+    x=y; y=r;
+    r=x%y;
+   }
+   return y;
+}
+
+int main()
+{
+    int J[11]={2520,11,12,13,14,15,16,17,18,19,20};
+    long long f=2520;
+    for (int i=1;i<11;i++) {
+        long long nlcm=(f*J[i])/gcd(f,J[i]);
+        cout <<nlcm<<endl;
+        f=nlcm;
+    }
+    cout<< f;
+    return 0;
+}

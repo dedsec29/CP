@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+ll const INF=1e18+5;
+//we flip the table, i.e. the relation/mapping/change the defintion
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    ll N,W; cin>>N>>W;
+    ll val[N],wt[N];
+    
+    //definition of dp[i], changed to: 
+    //dp[i] gives the minimum total weight of items with exactly i value 
+    ll sum_value=0; //range 0 to max Value posible in knapsack
+    for (ll in=0;in<N;in++) {
+        ll weight,value; cin>>weight>>value;
+        sum_value+=value;
+        wt[in]=weight; val[in]=value;
+    }
+    
+    ll dp[sum_value+1];
+    for (ll i1=0;i1<=sum_value;i1++) dp[i1]=INF; //initialisation
+    dp[0]=0; //obviously
+    
+    for (ll i=0;i<N;i++) { //i is item
+        for (ll j=sum_value;j>=val[i];j--) 
+            dp[j]=min(dp[j], dp[j-val[i]]+wt[i]);
+            //dont choose^    choose^ opt ans will be state without having this value + abhi ka weight since we're choose
+    }
+    
+    ll ans=0;
+    for (ll i=0;i<=sum_value;i++) {
+        if (dp[i]<=W)
+            ans=max(ans, i); //since i here is the max value we can get while not exceeding W 
+    }
+    
+    cout<<ans<<"\n";
+    return 0;
+}

@@ -1,0 +1,25 @@
+#include <iostream>
+
+using namespace std;
+
+int gcd(int x, int y) {
+   if (x>y) {
+    int z=x;
+    x=y;
+    y=z;
+   }
+   int r=x%y;
+   while (r!=0) {
+    x=y; y=r;
+    r=x%y;
+   }
+   return y;
+}
+
+int main()
+{
+    int a,b;
+    cin>>a>>b; //a>b
+    cout<<gcd(a,b);
+    return 0;
+}

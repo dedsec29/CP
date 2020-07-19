@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int N; cin>>N;
+    double p[N+1]; //P of H of coins 1 to N
+    for (int i=1;i<=N;i++) cin>>p[i];
+    double dp[N+1][N+1]; //i heads so far from the first j coins: dp[i][j]
+    dp[0][0]=1; //this senseless, but I want dp[1][1] have value p1 so got to do this (implementation reasons)
+    for (int i1=1;i1<=N;i1++) {
+        dp[0][i1]=dp[0][i1-1]*(1-p[i1]); //P having 0 Hs from first j coins= product of P of Ts
+        dp[i1][0]=0; //from zero coins, P is zero for anything
+    }
+    
+    // dp relation: dp[i][j]= dp[i-1][j-1]*p[j]+dp[i][j-1]*(1-p[j])
+    //Explanation: To answer i heads so far from first j coins,
+    //previously we could have had 2 states from which we can answer current question.
+    //1, that till now i-1 heads so far. So if we get current jth coin a Head, woohoo
+    //2, that till now i heads already so far, so it is okay to get current j as a tail
+    
+    for (int i=1;i<=N;i++) {
+        for (int j=1;j<=N;j++)
+            dp[i][j]= dp[i-1][j-1]*p[j]+dp[i][j-1]*(1-p[j]);
+    }
+    
+    double res=0;
+    for (int i=N/2 +1;i<=N;i++)
+        res+= dp[i][N];
+    cout << fixed << setprecision(10) << res;
+    return 0;
+}
