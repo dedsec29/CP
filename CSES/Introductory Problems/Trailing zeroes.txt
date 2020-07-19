@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    ll n; cin>>n;
+    ll f=2,a,b;a=b=0;
+    while (4) {
+        ll sum=n/f;
+        a+=sum;
+        f=f*2ll;
+        if (sum==0) break;
+    }
+    f=5;
+    while (4) {
+        ll sum=n/f;
+        b+=sum;
+        f=f*5ll;
+        if (sum==0) break;
+    }
+    cout<<min(a,b);
+    return 0;
+}

@@ -1,0 +1,35 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+//if root not one of the extremes, max dist using dfs will give the extreme of the diameter
+//dfs again to get the length of diameter
+
+int const siz=2e5;
+vector<int> adj[siz+1];
+int ans,ex;
+
+void dfs(int v,int d,int parent) {
+    if (ans<d) {
+        ans=d;
+        ex=v;
+    }
+    for (int i:adj[v]) {
+        if (i==parent) continue;
+        dfs(i,d+1,v);
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n; cin>>n;
+    for (int i=1;i<n;i++) {
+        int u,v; cin>>u>>v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    dfs(1,0,0);
+    dfs(ex,0,0);
+    cout<<ans;
+    return 0;
+}

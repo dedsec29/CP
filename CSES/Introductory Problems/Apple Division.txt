@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n; cin>>n;
+    ll arr[n];
+    for (int i=0;i<n;i++) cin>>arr[i];
+    if (n==1) {
+        cout<<arr[0];
+        return 0;
+    }
+    sort(arr,arr+n);
+    ll sum1,sum2; sum1=arr[n-1];sum2=0;
+    int idx=n-2;
+    while (true) {
+        while (sum2<=sum1) {
+            sum2+=arr[idx--];
+            if (idx==-1) goto here;
+        }
+        while (sum1<=sum2) {
+            sum1+=arr[idx--];
+            if (idx==-1) goto here;
+        }
+    }
+    here: cout<<abs(sum1-sum2);
+    return 0;
+}

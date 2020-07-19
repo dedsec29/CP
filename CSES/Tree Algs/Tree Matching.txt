@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int const siz=2e5;
+bool vis[siz+1],taken[siz+1];
+vector<int> adj[siz+1];
+int ans;
+
+void dfs(int v,int parent) {
+    vis[v]=true;
+    for (int i:adj[v]) {
+        if (!vis[i]) {
+            dfs(i,v);
+            if (!taken[i] && !taken[v]) {
+                taken[i]=taken[v]=true;
+                //cout<<parent<<"-->"<<v<<"\n";
+                ans++;
+            }
+        }
+    }
+    if (adj[v].size()==1 && parent!=0) {
+        if (!taken[parent]) {
+            taken[parent]=taken[v]=true;
+            //cout<<parent<<"-->"<<v<<"\n";
+            ans++;
+        }
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n; cin>>n;
+    for (int i=1;i<n;i++) {
+        int u,v; cin>>u>>v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    dfs(1,0);
+    cout<<ans;
+    return 0;
+}
