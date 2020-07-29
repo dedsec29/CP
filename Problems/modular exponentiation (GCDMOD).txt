@@ -6,7 +6,7 @@ using namespace std;
 ll poww(ll A,ll N,ll m) {
     ll temp;
     if (N==0)
-        return 1;
+        return 1ll;
     temp=poww(A,N/2,m);
     if (N%2==0)
         return ((temp%m)*(temp%m))%m;
