@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int const siz=1e8;
+int n,m,ps,qs,pb,qb,freqS[101],freqB[101],arr1[siz+1],arr2[siz+1];
+
+void countSort() {
+    int fs=1;
+    for (int i=1;i<=n;i++) {
+        fs=(fs*ps)%qs; 
+        freqS[fs]++;
+    } 
+    int fb=1;
+    for (int i=1;i<=m;i++) {
+        fb=(fb*pb)%qb; 
+        freqB[fb]++;
+    } 
+    for (int i=1;i<=100;i++) //range 0 to 100
+        freqS[i]+=freqS[i-1];
+    for (int i=1;i<=100;i++)
+        freqB[i]+=freqB[i-1]; 
+    //we don't need a stabilised version, unstable version will work too
+    //so we can iterate forwards as stable propery is not required here (or else we'd have to iterate backwards)
+    fs=fb=1;
+    for (int i=1;i<=n;i++) {
+        fs=(fs*ps)%qs;
+        arr1[freqS[fs]]=fs; 
+        freqS[fs]--;
+    }
+    for (int i=1;i<=m;i++) {
+        fb=(fb*pb)%qb;
+        arr2[freqB[fb]]=fb;
+        freqB[fb]--;
+    }
+    
+    int a=min(n,m),b=max(n,m);
+    int num=0,i=0;
+    while (a) { 
+        num+=abs(arr1[n-i]-arr2[m-i]); 
+        a--; i++;
+    }
+    double res= (num*1.0)/(b*1.0);
+    cout<<setprecision(1)<<fixed<<res<<"\n";
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cin>>n>>ps>>qs>>m>>pb>>qb;
+    countSort();
+    return 0;
+}
