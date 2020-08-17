@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+string s;
+ll const m=1e9+9;
+ll const p=31; 
+int const siz=1e5;
+ll hashpre[siz];
+ll inv_p[siz];
+
+ll poww(ll x, ll n) {
+    long temp;
+    if (n==0)
+        return 1ll;
+    temp=poww(x,n/2);
+    if (n%2==0)
+        return ((temp%m)*(temp%m))%m;
+    else
+        return (((x*(temp%m))%m)*(temp%m))%m;
+}
+
+void precomputation() {
+    inv_p[0]=1;
+    ll invp=poww(p,m-2);
+    for (int i=1;i<=siz;i++)
+        inv_p[i]= (inv_p[i-1]*invp)%m;
+}
+
+void computehashpre() {
+    ll prevp=p;
+    hashpre[0]=s[0]-'a'+1;
+    for (int i=1;i<s.size();i++) {
+        hashpre[i]= (hashpre[i-1] + ((s[i]-'a'+1)*prevp)%m)%m;
+        prevp= (prevp*p)%m;
+    }
+}
+
+ll hashh(int i,int j) {
+    if (i!=0) {
+        ll res=hashpre[j]-hashpre[i-1];
+        if (res<0) res+=m;
+        else res%=m;
+        return (res*inv_p[i])%m;
+    }
+    else
+        return hashpre[j]%m;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    precomputation();
+    int t; cin>>t;
+    while (t--) {
+        cin>>s;
+        computehashpre();
+        int counter=0;
+        for (int i=1;i<s.size()-2;i=i+2) {
+            if (hashh(0,i/2)==hashh(i/2 +1,i) && hashh(i+1,(s.size()-1-i)/2 +i)==hashh((s.size()-1-i)/2 +i+1,s.size()-1))
+                counter++;
+            /*cout<<hashh(0,i/2)<<" "<<hashh(i/2 +1,i)<<", "<<hashh(i+1,(s.size()-1-i)/2 +i)<<" "<<hashh((s.size()-1-i)/2 +i+1,s.size()-1)<<endl;
+            cout<<"0 "<<(i/2)<<" "<<(i/2+1)<<" "<<i<<", "<<(i+1)<<" "<<((s.size()-1-i)/2 +i)<<" "<<((s.size()-1-i)/2 +i+1)<<" "<<(s.size()-1)<<endl;*/
+        }
+        /*cout<<counter<<"\n";
+        cout<<inv_p[1]<<endl;
+        cout<<hashpre[1]<<" - "<<hashpre[0]<<endl;
+        cout<<hashpre[1]-hashpre[0]<<" * "<<31<<"=\n";
+        cout<<(hashpre[1]-1)*31<<endl;
+        cout<<(((hashpre[1]-1)*31ll)*inv_p[1])%m<<endl;*/
+        cout<<counter<<endl;
+    }
+    return 0;
+}

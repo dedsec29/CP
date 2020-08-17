@@ -3,15 +3,15 @@
 #define mod 1000000007
 using namespace std;
 
-ll poww(ll A,ll N,ll m) {
+ll poww(ll A,ll N) {
     ll temp;
     if (N==0)
         return 1ll;
-    temp=poww(A,N/2,m);
-    if (N%2==0)
-        return ((temp%m)*(temp%m))%m;
+    temp=poww(A,N/2);
+    if (N&1ll)
+        return (A*((temp*temp)%mod))%mod;
     else
-        return ((A%m)*(((temp%m)*(temp%m))%m))%m;
+        return (temp*temp)%mod;
 }
 
 ll gcd(ll A,ll B,ll N) {

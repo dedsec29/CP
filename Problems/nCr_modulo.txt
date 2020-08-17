@@ -1,0 +1,37 @@
+int const siz = 500000;
+ll const mod=1e9+7;
+
+ll factorialNumInverse[siz + 1];
+ll naturalNumInverse[siz + 1];
+ll fact[siz + 1];
+
+void InverseofNumber() {
+    naturalNumInverse[0] = naturalNumInverse[1] = 1; 
+    for (ll i = 2; i <= siz; i++) 
+        naturalNumInverse[i] = naturalNumInverse[mod % i] * (mod - mod / i) % mod; 
+}
+
+void InverseofFactorial() {
+    factorialNumInverse[0] = factorialNumInverse[1] = 1; 
+  
+    // precompute inverse of natural numbers 
+    for (ll i = 2; i <= siz; i++) 
+        factorialNumInverse[i] = (naturalNumInverse[i] * factorialNumInverse[i - 1]) % mod; 
+}
+
+void factorial() {
+    fact[0] = 1; 
+    
+    // precompute factorials 
+    for (ll i = 1; i <= siz; i++) { 
+        fact[i] = (fact[i - 1] * i) % mod; 
+    } 
+}
+
+ll Binomial(ll N, ll R) {
+    // n C r = n!*inverse(r!)*inverse((n-r)!) 
+    ll ans = ( (fact[N] * factorialNumInverse[R]) 
+              % mod * factorialNumInverse[N - R]) 
+             % mod; 
+    return ans; 
+}
