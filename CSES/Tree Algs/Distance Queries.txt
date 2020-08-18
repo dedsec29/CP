@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+int const siz=2e5;
+int const esiz=2*siz-1;
+vector<int> adj[siz+1];
+int euler[esiz+1], first[siz+1], depth[siz+1], n;
+pair<int,int> t[4*esiz+1];
+
+void dfs(int &idx,int d,int v,int parent) {
+    depth[v]=d;
+    euler[idx]=v;
+    first[v]=idx;
+    idx++;
+    for (auto i:adj[v]) {
+    	if (i==parent) continue;
+        dfs(idx,d+1,i,v);
+        euler[idx++]=v;
+    }
+}
+
+void build(int v,int tl,int tr) {
+    if (tl==tr) {
+        t[v]=make_pair(depth[euler[tl]],euler[tl]);
+        return;
+    }
+    int mid=(tl+tr)/2;
+    build(2*v,tl,mid);
+    build(2*v+1,mid+1,tr);
+    t[v]=min(t[2*v],t[2*v+1]);
+}
+
+pair<int,int> qry(int v,int tl,int tr,int l,int r) {
+    if (l>r)
+        return make_pair(siz+1,siz+1);
+    if (l==tl && r==tr)
+        return t[v];
+    int mid=(tl+tr)/2;
+    return min(qry(2*v,tl,mid,l,min(r,mid)),qry(2*v+1,mid+1,tr,max(l,mid+1),r));
+}
+
+int LCA(int u,int v) {
+    return qry(1,1,2*n-1,u,v).second;
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	int q; cin>>n>>q;
+	for (int i=1;i<n;i++) {
+		int u,v; cin>>u>>v;
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+	}
+	int idx=1;
+	dfs(idx,0,1,0);
+	build(1,1,2*n-1);
+	while (q--) {
+		int u,v; cin>>u>>v;
+		int left=first[u], right=first[v];
+		if (left>right) swap(left,right);
+		cout<<(depth[u]-2*depth[LCA(left,right)]+depth[v])<<"\n";
+	}
+	return 0;
+}

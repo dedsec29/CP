@@ -37,7 +37,7 @@ void build(int v,int tl,int tr) {
 
 pair<int,int> qry(int v,int tl,int tr,int l,int r) {
     if (l>r)
-        return make_pair(100001,100001);
+        return make_pair(siz+1,siz+1);
     if (l==tl && r==tr)
         return t[v];
     int mid=(tl+tr)/2;
