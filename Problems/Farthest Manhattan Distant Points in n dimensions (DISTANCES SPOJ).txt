@@ -1,0 +1,30 @@
+#include <bits/stdc++.h>
+using namespace std;
+//#pragma GCC optimize "trapv"
+#define ll long long
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    ll n; int d; cin>>n>>d;
+    ll points[n][d];
+    for (int i=0;i<n;i++) for (int j=0;j<d;j++) cin>>points[i][j];
+    ll ans =0;
+    for (int i=0;i<(1<<d);i++) {
+    	ll mn = LLONG_MAX, mx = 0;
+    	for (int j=0;j<n;j++) {
+    		ll x = 0;
+    		for (int k=0;k<d;k++) {
+    			if (i & (1<<k))
+    				x+= points[j][k];
+    			else
+    				x-=points[j][k];
+    		}
+    		mn = min(mn, x);
+    		mx = max(mx, x);
+    	}
+    	ans = max(ans, mx-mn);
+    }
+    cout<<ans<<"\n";
+    return 0;
+}
