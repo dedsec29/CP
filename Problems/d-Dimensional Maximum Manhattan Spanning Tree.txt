@@ -1,0 +1,87 @@
+#include <bits/stdc++.h>
+using namespace std;
+//#pragma GCC optimize "trapv"
+#define ll long long
+
+int const siz = 200000;
+int parent[siz+1];
+
+int find(int a) {
+    if (parent[a]<0)
+        return a;
+    parent[a]=find(parent[a]);
+    return parent[a];
+}
+     
+void Union(int a, int b) {
+    if (parent[a]<=parent[b]) {
+        parent[a]+=parent[b];
+        parent[b]=a;
+    }
+    else {
+        parent[b]+=parent[a];
+        parent[a]=b;
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n,d; cin>>n>>d;
+    ll points[n+1][d];
+    for (int i=1;i<=n;i++) {
+        parent[i]=-1;
+        for (int j=0;j<d;j++) 
+            cin>>points[i][j];
+    }
+    priority_queue<pair<int,pair<int,int>>> Q;
+    for (int i=0;i<(1<<d);i++) {
+        int minv, maxv;
+        ll xmin = LLONG_MAX, xmax = LLONG_MIN; 
+        for (int j=1;j<=n;j++) {
+            ll x = 0;
+            for (int k=0;k<d;k++) {
+                if (i & (1<<k))
+                    x+= points[j][k];
+                else
+                    x-=points[j][k];
+            }
+            if (xmin>x) {
+                xmin = x;
+                minv = j;
+            }
+            if (xmax<x) {
+                xmax = x;
+                maxv = j;
+            }
+        }
+        for (int j=1;j<=n;j++) {
+            ll wt_minv, wt_maxv;
+            wt_minv = wt_maxv = 0;
+            for (int k=0;k<d;k++) {
+                wt_minv+= abs(points[j][k]-points[minv][k]);
+                wt_maxv+= abs(points[j][k]-points[maxv][k]);
+            }
+            Q.push({wt_minv,{minv,j}});
+            Q.push({wt_maxv,{maxv,j}});
+        }
+    }
+    int tedges = 0;
+	ll ans = 0;
+	while (!Q.empty()) {
+		auto x = Q.top(); Q.pop();
+		int s=x.first;
+        int a=x.second.first;
+        int b=x.second.second;
+        int u=find(a); int v=find(b);
+        if (u!=v) {
+            tedges++;
+            ans+= s;
+            Union(u,v);
+        }
+        if (tedges==(n-1))
+        	break;
+	}
+	cout<<ans;
+    return 0;
+}
