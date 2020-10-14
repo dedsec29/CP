@@ -1,0 +1,53 @@
+//Maximum spanning tree
+
+#include <bits/stdc++.h>
+using namespace std;
+//#pragma GCC optimize "trapv"
+#define ll long long
+
+int const siz = 2e5;
+bool taken[siz+1];
+vector<pair<ll,int>> adj[siz+1]; //(w, v)
+int n,d;
+
+ll prim() {
+    priority_queue<pair<ll,int>> Q;
+    vector<bool> inMst(n+1, false);
+    Q.push({0,1});
+    int tedges = -1;
+    ll ans = 0;
+    while (!Q.empty()) {
+        auto x = Q.top();
+        Q.pop();
+        if (inMst[x.second])
+            continue;
+        ans+= x.first;
+        inMst[x.second]=true;   //in bfs we mark before pushing but here we mark then push
+        tedges++;
+        if (tedges==n-1) break;
+        for (auto i: adj[x.second]) {
+            if (!inMst[i.second]) 
+                Q.push(i);
+        }
+    }
+    return ans;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    n,d; cin>>n>>d;
+    ll points[n+1][d+1];
+    for (int i=1;i<=n;i++) for (int j=1;j<=d;j++) cin>>points[i][j];
+    for (int i=1;i<=n;i++) {
+        for (int j=i+1;j<=n;j++) {
+            ll wt = 0;
+            for (int k=1;k<=d;k++)
+                wt+= abs(points[i][k]-points[j][k]);
+            adj[i].push_back({wt, j});
+            adj[j].push_back({wt, i});
+        }
+    }
+    cout<<prim();
+    return 0;
+}
