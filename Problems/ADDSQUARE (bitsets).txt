@@ -1,0 +1,39 @@
+#include <iostream>
+#include <bitset>
+#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")
+using namespace std;
+
+int const siz = 1e5;
+bitset<siz+1> horizontal, vertical, present_w, present_h, revhorizontal;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int w,h,n,m; cin>>w>>h>>n>>m;
+    int hori[m], vert[n];
+    for (int i=0;i<n;i++) {
+        cin>>vert[i];
+        vertical.set(vert[i]);
+    }
+    for (int i=0;i<m;i++) {
+        cin>>hori[i];
+        horizontal.set(hori[i]);
+        revhorizontal.set(h-hori[i]); //setting here itself, or alternatively could iterate reverse to initialise this bitset
+    }
+    for (int i: vert) 
+        present_w |= vertical>>i;
+    for (int i: hori)
+        present_h |= horizontal>>i;
+    int ans = 0;
+    for (int c=0;c<=h;c++) {
+        //https://discuss.codechef.com/t/addsqure-editorial/79023/32?u=dedsec_29
+        //(this explains why!) we need to fin new differences formed when introducing new y = c line 
+        int temp = ((((horizontal>>c) | (revhorizontal>>(h-c))) | present_h ) & present_w).count();  
+        ans = (temp>ans)?temp:ans;
+    }
+    ans--; //0 is degenerate
+    cout<<ans;
+    return 0;
+}
