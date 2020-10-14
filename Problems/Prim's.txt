@@ -1,4 +1,7 @@
-//Maximum spanning tree
+//Maximum spanning tree O((E+V)logV) (using Kruskal, it's ElogE)
+//Can be improved to O(E+VlogV) using fibonacci heap
+//Following code takes O(V^2logV) when graph is dense. In such cases,
+//we're better off using O(V^2) algorithm (https://cp-algorithms.com/graph/mst_prim.html)
 
 #include <bits/stdc++.h>
 using namespace std;
