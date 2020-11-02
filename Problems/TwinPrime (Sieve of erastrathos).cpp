@@ -10,7 +10,7 @@ pair<int,int> answer[siz+1];
 
 void precomputation() {
     is_prime.set();
-    is_prime[0] = is_prime[1] = 1;
+    is_prime[0] = is_prime[1] = 0;
     for (ll i = 2; i * i <= n; i++) {
         if (is_prime[i]) {
             for (ll j = i * i; j <= n; j += i)
