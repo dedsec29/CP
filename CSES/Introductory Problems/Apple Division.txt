@@ -1,30 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
+//#pragma GCC optimize "trapv"
 #define ll long long
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     int n; cin>>n;
-    ll arr[n];
+    ll arr[n], ans = LLONG_MAX;
     for (int i=0;i<n;i++) cin>>arr[i];
-    if (n==1) {
-        cout<<arr[0];
-        return 0;
-    }
-    sort(arr,arr+n);
-    ll sum1,sum2; sum1=arr[n-1];sum2=0;
-    int idx=n-2;
-    while (true) {
-        while (sum2<=sum1) {
-            sum2+=arr[idx--];
-            if (idx==-1) goto here;
+    for (int i=0;i<(1<<n);i++) {
+        ll sum1,sum2; sum1=sum2=0;
+        for (int j=0;j<n;j++) {
+            if (i & (1<<j)) sum1+=arr[j];
+            else sum2+=arr[j];
         }
-        while (sum1<=sum2) {
-            sum1+=arr[idx--];
-            if (idx==-1) goto here;
-        }
+        ans = min(ans, abs(sum1-sum2));
     }
-    here: cout<<abs(sum1-sum2);
+    cout<<ans;
     return 0;
 }
