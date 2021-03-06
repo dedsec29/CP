@@ -1,0 +1,24 @@
+#include <bits/stdc++.h>
+using namespace std;
+#pragma GCC optimize "trapv"
+#define ll long long
+
+ll poww(ll A,ll N,ll mod) {
+    ll temp;
+    if (N==0)
+        return 1;
+    temp=poww(A,N/2,mod);
+    if (N&1ll)
+        return (A*((temp*temp)%mod))%mod;
+    else
+        return (temp*temp)%mod;
+}
+
+int main() {
+    ll n; cin>>n; //to calc (3^ (3^n))%mod
+    // (a^b)%mod, b = b%phi(mod), phi(mod) = mod-1 since mod is prime
+    // so calculate 3^n under phimod
+    ll b = poww(3, n, 1e9+6);
+    cout<<poww(3, b, 1e9+7)<<"\n";
+    return 0;
+}
