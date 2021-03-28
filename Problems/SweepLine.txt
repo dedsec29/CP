@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+using namespace std;
+// https://www.youtube.com/watch?v=IpQUtXys_5w&ab_channel=SecondThread  1:24:20 REF
+
+struct event {
+    int x, ending; char type;
+    int l, r;
+};
+
+bool comp(event& a,event& b) {
+    if (a.x!=b.x)
+        return a.x < b.x;
+    return a.type < b.type;
+}
+
+int qry(int i, vector<int>& ft) {
+    int sum=0;
+    while (i>0) {
+        sum+=ft[i];
+        i-=i&-i;
+    }
+    return sum;
+}
+
+void update(int i, int x, vector<int>& ft, int n) {
+    while (i<=n) {
+        ft[i]+=x;
+        i+=i&-i;
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t; cin>>t;
+    while (t--) {
+        int n; cin>>n;
+        vector<event> e;
+        e.reserve(2*n);
+        int arr[n];
+        for (int i=0;i<n;i++) {
+            int l,r; cin>>l>>r;
+            event a1, a2;
+            a1.x = l, a1.type='i', a1.l = l, a1.r = r;
+            a2.x = r, a2.type='o', a2.l = l, a2.r = r;
+            e.push_back(a1);
+            e.push_back(a2);
+        }
+        unordered_map<int,int> compress;
+        compress.reserve(2*n);
+        sort(e.begin(), e.end(), comp);
+        //Coordinate compression, mapping sparse set of values to Natural numbers
+        for (auto i: e) compress.insert({i.x, compress.size()+1});  
+        int fsize = compress.size();
+        vector<int> ft(fsize+1);
+        int maxCluster = 0;
+        for (auto ev: e) {
+            if (ev.type=='i') 
+                update(compress[ev.r], 1, ft, fsize);
+            else
+                maxCluster = max(maxCluster, qry(fsize, ft)-qry(compress[ev.l]-1, ft));
+        }
+        cout<<n-maxCluster<<"\n";
+    }
+    return 0;
+}
