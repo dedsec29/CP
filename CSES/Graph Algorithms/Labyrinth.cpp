@@ -1,12 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+ 
 char grid[1000][1000];
 bool vis[1000][1000];
 vector<char> v;
 int n,m, sx,sy,dx,dy,d[1000][1000];
 pair<int,int> parent[1000][1000];
-
+ 
 bool can(int x,int y) {
     if (x==-1 || x==n || y==-1 || y==m)
         return false;
@@ -16,7 +16,7 @@ bool can(int x,int y) {
         return true;
     }
 }
-
+ 
 void findShortestDistance() {
     d[sx][sy]=0;
     pair<int,int> sourcep={-1,-1};
@@ -68,7 +68,7 @@ void findShortestDistance() {
     cout<<"YES\n"<<v.size()<<"\n";
     for (int i=v.size()-1;i>=0;i--) cout<<v[i];
 }
-
+ 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
