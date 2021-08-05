@@ -4,6 +4,7 @@ using namespace std;
 #define ll long long
 
 //https://codeforces.com/contest/976/problem/C
+//might have done incorectly, cant bs on y cause not sorted by ending
 
 struct interval {
     int l,r,idx;
