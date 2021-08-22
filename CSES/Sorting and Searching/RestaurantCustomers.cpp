@@ -3,23 +3,30 @@ using namespace std;
 //#pragma GCC optimize "trapv"
 #define ll long long
 
-bool comp(pair<int,int>& a,pair<int,int>& b) {
-    return (a.second<b.second) || (a.second==b.second && a.first<=b.first);
+void solve() {
+    int n; cin>>n;
+    vector<pair<int,char>> arr(2*n);
+    for (int i=0;i<n;i++) {
+        cin>>arr[i].first>>arr[n+i].first;
+        arr[i].second = 'i';
+        arr[n+i].second = 'o';
+    }
+    sort(arr.begin(), arr.end());
+    int cnt = 0;
+    int mx = 0;
+    for (auto i: arr) {
+        if (i.second == 'i')
+            cnt++;
+        else
+            cnt--;
+        mx = max(mx, cnt);
+    }
+    cout << mx;
 }
- 
+
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int n; cin>>n;
-    pair<int,int> intervals[n];
-    for (int i=0;i<n;i++) {
-        int a,b; cin>>a>>b;
-        intervals[i] = {a, b-1};
-    }
-    sort(intervals, intervals+n, comp);
-    int ans = 0;
-    for (int i=0;i<n;i++) {
-        
-    }
+    solve();
     return 0;
 }
