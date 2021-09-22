@@ -1,0 +1,54 @@
+1. Euclidean Division Lemma:
+   a = bq + r		r ∈ [0, b)
+Proof: dividend = divisor * quotient + remainder
+
+2. gcd(A, B) = gcd(A, A-B)
+Proof:  We will explore divisors of A, B and A-B to prove this.
+	A is divisible by gcd(A,B)	(obviously)	
+	A is divisible by gcd(A,A-B)    (obviously)	
+	B is divisible by gcd(A,B)	("")
+	B is divisible by gcd(A,A-B)
+	(Proof: 
+	A = m*gcd(A,A-B)	A-B = n*gcd(A,A-B)
+	A - (A-B) = (m-n)*gcd(A,A-B)
+	B = (m-n)*gcd(A,A-B)
+	Therefore gcd(A,A-B) | B)
+
+	So A and B have alteast these 2 common divisors. By definition of GCD, (i) has to be the greatest.
+	Therefore gcd(A,B) >= gcd(A,A-B)	(i)
+
+	A-B is divisble by gcd(A,A-B)   (obviously)
+	A-B is divisible by gcd(A,B)
+	(Proof:
+	A = m*gcd(A,B)		B = n*gcd(A,B)
+	A-B = (m-n)*gcd(A,B)
+	Therefore gcd(A,B) | A-B)
+	
+	So A and A-B have atleast these 2 common divisors. Again by definition..
+	gcd(A,A-B) >= gcd(A,B)			(ii)
+	(i) and (ii) hold true only for equality,
+	i.e. gcd(A,B) = gcd(A,A-B)
+	Hence Proved
+
+3. gcd(A,B) = gcd(B, B%A)
+Proof:  gcd(A,B) = gcd(B, A-B)
+		 = gcd(B, A-2B)
+		 = gcd(B, A-3B)
+		   ....
+		 = gcd(B, A-xB)    (largest x such that A-xB >= 0)
+	And A-xB = r = A%B
+	Therefore gcd(A,B) = gcd(B, A%B)
+	Hence Proved
+
+4. Time complexity of finding gcd(A,B) using Euclid's Division algorithm is log(ab)
+Proof: We make transitions from (A,B) to (B,r)
+       Product ab always halfs in each iteration
+       (Proof: br < ab/2 because r < a/2 cause a%b < a/2)
+       So it takes O(log(ab)) steps  (until br ain't anymore)
+
+	
+
+
+
+
+	
