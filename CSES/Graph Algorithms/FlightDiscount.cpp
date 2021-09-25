@@ -46,7 +46,7 @@ void solve() {
         }
         for (auto j: to_insert)
             adj[i].emplace_back(j);
-        sort(adj[i].begin(), adj[i].end()); //cause multiple edges
+        //works with multiple edges as well because of comparator of set (choose min edge first)
     }
     vector<ll> d(2*n+1, inf);
     dijkstra(1, d);
