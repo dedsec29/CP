@@ -1,0 +1,27 @@
+If A and B are non zero integers, then 
+Ax + By = C has x,y integer solutions if gcd(A,B) | C
+This is the bezout's identity
+
+S is the set of values of all linear combinations. C belongs to S
+We can prove that the minimum element d in this set must be the gcd(A,B)
+
+let d = As + Bt  be the smallest element non zero element
+To prove that d is the gcd
+A = dq + r  where 0 <= r < d
+r is in S because
+	r = A - qd
+	  = A - q(As + Bt)
+	  = A(1-qs) - Bqt
+	  = Ax' + By'
+But r < d making it smaller than d, but d is the smallest number in the set
+This is only possible if r = 0  (as 0 is in the set)
+This implies that A = qd => d | A  (d is divisor of A)
+
+Similarly we can prove d | B.
+Since d | A and d | B and d is minimal, d is gcd(A,B)
+
+Therefore we proved Ax + By = gcd(A,B) has solutions
+Now, if d divides both A and B, ofcourse all values in S are divisible by d.
+
+Therefore, gcd(A,B) | C so that Ax + By = C has x,y integral solutions
+Hence we proved Bezout's lemma
