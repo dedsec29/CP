@@ -2,6 +2,8 @@
 // https://cp-algorithms.web.app/graph/edmonds_karp.html
 // https://www.youtube.com/watch?v=K1i-wP82Zdo	(BEST) 
 
+// What is max flow?
+// Maximum number of paths going from source to node that share no edges
 
 // What does Augment mean in English?
 // 		To increase something by adding
@@ -45,7 +47,7 @@
 
 // Max Flow Min Cut:
 // An s-t cut is: Imagine a partition of graph into 2 connected disjoint sets of vertices (one including s,
-//	the other including t). Now the sum of flow on the edges bw A and B is called the value of cut.
+//	the other including t). Now the sum of (edge capacities going outwards) bw A and B is called the value of cut.
 // Ofcourse, we cannot send more water than a cut
 // So the max cut is bounded by the minimum cut value
 // Max flow = min cut
