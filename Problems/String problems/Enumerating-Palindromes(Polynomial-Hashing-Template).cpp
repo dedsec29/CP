@@ -79,6 +79,13 @@ struct polynomial_hash {
         if (q < 0) q += mod;
         return q * p_inv[n-1-j] % mod;
     }
+
+    bool is_palindrome(int sp,int ep,polynomial_hash& H) {
+        int mid = (sp + ep)/2;
+        if ((sp + ep)%2 == 0) 
+            return H.substring_forward_hash(sp, mid) == H.substring_backward_hash(mid, ep);
+        return H.substring_forward_hash(sp, mid) == H.substring_backward_hash(mid+1, ep);
+    }
 };
 
 int type1_palindrome(int idx,string& s,int n,polynomial_hash& H) {
