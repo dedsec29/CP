@@ -1,47 +1,53 @@
 #include <bits/stdc++.h>
 using namespace std;
-//#pragma GCC optimize "trapv"
-#define ll long long
-
-#pragma GCC optimize("O3")
-#pragma GCC target("avx,avx2,sse,sse2,sse3,sse4,popcnt,fma")
-
-bool good(pair<int,int>& a,pair<int,int>& b) {
-    set<int> s;
-    s.insert(a.first);
-    s.insert(a.second);
-    s.insert(b.first);
-    s.insert(b.second);
-    return (s.size() == 4);
-}
-
+#define int long long
+ 
+struct int_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+ 
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+ 
 void solve() {
-    int n; ll x; cin>>n>>x;
-    vector<ll> arr(n+1);
-    for (int i=1;i<=n;i++) cin>>arr[i];
-    vector<pair<ll, pair<int,int>>> doublet_sums;
-    doublet_sums.reserve((n*n)/2);
-    for (int i=1;i<=n;i++) {
-        for (int j=i+1;j<=n;j++) 
-            doublet_sums.push_back({arr[i]+arr[j], {i,j}});
-    }
-    sort(doublet_sums.begin(), doublet_sums.end());
-    int len = doublet_sums.size();
-    int l = 0, r = len-1;
-    while (l < r) {
-        if (good(doublet_sums[l].second,doublet_sums[r].second) && doublet_sums[l].first + doublet_sums[r].first == x) {
-            cout << doublet_sums[l].second.first << " " << doublet_sums[l].second.second << " " << doublet_sums[r].second.first << " " << doublet_sums[r].second.second;
-            return;
+    int n,x; cin >> n >> x;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++)
+        cin >> arr[i];
+ 
+    unordered_map<int, pair<int,int>, int_hash> mp;
+    vector<int> indices;
+ 
+    for (int i = 0; i < n; i++) {
+        for (int j = i+1; j < n; j++) {
+            if (mp.count(x - arr[i] - arr[j])) {
+                indices = {i,j, mp[x-arr[i]-arr[j]].first, mp[x-arr[i]-arr[j]].second};
+                goto here;
+            }
         }
-        else if (doublet_sums[l].first + doublet_sums[r].first < x)
-            l++;
-        else
-            r--;
+        for (int j = 0; j < i; j++)
+            mp[arr[i] + arr[j]] = {i,j};   
     }
-    cout << "IMPOSSIBLE";
+ 
+    here:
+    if (indices.empty())
+        cout << "IMPOSSIBLE\n";
+    else {
+        for (int i: indices)
+            cout << i+1 << " ";
+        cout << "\n";
+    }
 }
-
-int main() {
+ 
+int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     solve();
